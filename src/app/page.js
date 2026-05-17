@@ -7,7 +7,6 @@ const MainLayout = () => {
     return (
         <div className="font-sans min-h-screen flex flex-col bg-gray-50">
             {/* Navbar Section */}
-            <Navbar />
 
         </div>
     );
