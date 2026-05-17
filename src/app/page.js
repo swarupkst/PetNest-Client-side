@@ -1,10 +1,16 @@
-import Navbar from "@/components/shared/Navbar/page";
-import Image from "next/image";
+//import { Outlet } from "react-router-dom";
 
-export default function Home() {
-  return (
-    <div>
-      <Navbar />
-    </div>
-  );
-}
+import Navbar from "@/components/shared/Navbar/page";
+import Footer from "@/components/shared/Footer/page";
+
+const MainLayout = () => {
+    return (
+        <div className="font-sans min-h-screen flex flex-col bg-gray-50">
+            {/* Navbar Section */}
+            <Navbar />
+
+        </div>
+    );
+};
+
+export default MainLayout;
