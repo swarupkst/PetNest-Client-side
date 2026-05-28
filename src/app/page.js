@@ -2,12 +2,13 @@
 
 import Navbar from "@/components/shared/Navbar/page";
 import Footer from "@/components/shared/Footer/page";
+import Hero from "@/components/homepage/Hero/page";
 
 const MainLayout = () => {
     return (
         <div className="font-sans min-h-screen flex flex-col bg-gray-50">
             {/* Navbar Section */}
-
+        <Hero />
         </div>
     );
 };

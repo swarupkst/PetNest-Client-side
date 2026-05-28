@@ -14,8 +14,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: "PetNest",
-  description: "Shelter for Pet",
+  title: "PetConnect",
+  description: "Find Your Perfect Pet",
 };
 
 export default function RootLayout({ children }) {
