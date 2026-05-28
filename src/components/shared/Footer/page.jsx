@@ -1,108 +1,110 @@
+"use client";
+
 import Link from "next/link";
 import {
   FaFacebookF,
-  FaTwitter,
   FaInstagram,
-  FaLinkedinIn,
+  FaYoutube,
 } from "react-icons/fa";
+import { FaXTwitter } from "react-icons/fa6";
+
+import { MdLocationOn, MdEmail, MdPhone } from "react-icons/md";
 
 export default function Footer() {
   return (
-    <footer className="bg-gray-900 text-white mt-auto border-t border-gray-800">
-      <div className="container mx-auto px-6 py-14 grid grid-cols-1 md:grid-cols-3 gap-12">
-        
-        {/* Brand Section */}
-        <div>
-          <Link
-            href="/"
-            className="text-4xl font-extrabold tracking-tight text-white flex items-center gap-2 mb-4"
-          >
-            <span className="text-3xl">🐾</span> PetNest.
-          </Link>
+    <footer className="bg-gradient-to-r from-[#050816] via-[#070b1a] to-[#050816] text-white border-t border-gray-800">
 
-          <p className="text-sm text-gray-400 leading-relaxed max-w-sm">
-            Bringing joy to homes by connecting loving families with pets in need. Adopt, do not shop! Give them a forever home today.
+      {/* MAIN FOOTER */}
+      <div className="container mx-auto px-6 py-14 grid grid-cols-1 md:grid-cols-4 gap-10 text-center md:text-left">
+
+        {/* Brand */}
+        <div className="flex flex-col items-center md:items-start">
+          <div className="flex items-center gap-2 mb-4">
+            <img
+              src="/asset/logo.png"
+              alt="logo"
+              className="w-10 h-10 rounded-full"
+            />
+            <h1 className="text-2xl font-bold">
+              Pet<span className="text-orange-500">Connect</span>
+            </h1>
+          </div>
+
+          <p className="text-gray-400 text-sm leading-relaxed max-w-xs md:max-w-none">
+            Connecting loving families with pets in need. Every adoption saves
+            a life and creates a beautiful bond.
           </p>
-        </div>
 
-        {/* Contact Section */}
-        <div>
-          <h3 className="text-xl font-semibold mb-5 text-white">
-            Contact
-          </h3>
-
-          <div className="space-y-3 text-sm text-gray-400">
-            <p>📍 Dhaka, Bangladesh</p>
-
-            <a
-              href="mailto:support@petadopt.com"
-              className="block hover:text-[#244d3f] transition duration-300"
-            >
-              ✉ support@petnest.com
+          {/* Social Icons */}
+          <div className="flex gap-3 mt-6 justify-center md:justify-start">
+            <a className="bg-white/10 p-2 rounded-full hover:bg-blue-600 transition">
+              <FaFacebookF />
             </a>
 
-            <a
-              href="tel:+8801234567890"
-              className="block hover:text-[#244d3f] transition duration-300"
-            >
-              📞 +880 1234 567890
+            <a className="bg-white/10 p-2 rounded-full hover:bg-black transition">
+              <FaXTwitter />
+            </a>
+
+            <a className="bg-white/10 p-2 rounded-full hover:bg-pink-600 transition">
+              <FaInstagram />
+            </a>
+
+            <a className="bg-white/10 p-2 rounded-full hover:bg-red-600 transition">
+              <FaYoutube />
             </a>
           </div>
         </div>
 
-        {/* Social Section */}
+        {/* Platform */}
         <div>
-          <h3 className="text-xl font-semibold mb-5 text-white">
-            Follow Us
-          </h3>
+          <h2 className="text-lg font-semibold mb-4">Platform</h2>
+          <ul className="space-y-3 text-gray-400">
+            <li><Link href="/pets">All Pets</Link></li>
+            <li><Link href="/add-pet">Add a Pet</Link></li>
+            <li><Link href="/requests">My Requests</Link></li>
+            <li><Link href="/listings">My Listings</Link></li>
+          </ul>
+        </div>
 
-          <p className="text-sm text-gray-400 mb-5">
-            Stay connected with us on social media for heartwarming success stories and available pets.
-          </p>
+        {/* Company */}
+        <div>
+          <h2 className="text-lg font-semibold mb-4">Company</h2>
+          <ul className="space-y-3 text-gray-400">
+            <li><Link href="/">About Us</Link></li>
+            <li><Link href="/">Success Stories</Link></li>
+            <li><Link href="/">Pet Care Tips</Link></li>
+            <li><Link href="/">Why Adopt?</Link></li>
+          </ul>
+        </div>
 
-          <div className="flex items-center gap-4">
-            <a
-              href="https://facebook.com"
-              target="_blank"
-              rel="noreferrer"
-              className="w-11 h-11 rounded-full border border-gray-700 flex items-center justify-center hover:bg-[#244d3f] hover:border-[#244d3f] hover:text-white transition-all duration-300"
-            >
-              <FaFacebookF />
-            </a>
+        {/* Contact */}
+        <div className="flex flex-col items-center md:items-start">
+          <h2 className="text-lg font-semibold mb-4">Contact Us</h2>
 
-            <a
-              href="https://instagram.com"
-              target="_blank"
-              rel="noreferrer"
-              className="w-11 h-11 rounded-full border border-gray-700 flex items-center justify-center hover:bg-[#244d3f] hover:border-[#244d3f] hover:text-white transition-all duration-300"
-            >
-              <FaInstagram />
-            </a>
+          <div className="space-y-4 text-gray-400 text-sm">
+            <p className="flex items-center gap-2 justify-center md:justify-start">
+              <MdLocationOn className="text-orange-500" />
+              123 Paw Street, Animal City
+            </p>
 
-            <a
-              href="https://twitter.com"
-              target="_blank"
-              rel="noreferrer"
-              className="w-11 h-11 rounded-full border border-gray-700 flex items-center justify-center hover:bg-[#244d3f] hover:border-[#244d3f] hover:text-white transition-all duration-300"
-            >
-              <FaTwitter />
-            </a>
+            <p className="flex items-center gap-2 justify-center md:justify-start">
+              <MdPhone className="text-orange-500" />
+              0123456789
+            </p>
 
-            <a
-              href="https://linkedin.com"
-              target="_blank"
-              rel="noreferrer"
-              className="w-11 h-11 rounded-full border border-gray-700 flex items-center justify-center hover:bg-[#244d3f] hover:border-[#244d3f] hover:text-white transition-all duration-300"
-            >
-              <FaLinkedinIn />
-            </a>
+            <p className="flex items-center gap-2 justify-center md:justify-start">
+              <MdEmail className="text-orange-500" />
+              hello@petconnect.com
+            </p>
           </div>
         </div>
       </div>
 
-      {/* Bottom Bar */}
-      <div className="border-t border-gray-800 py-5 text-center text-sm text-gray-500">
-        © {new Date().getFullYear()} PetNest Platform. All rights reserved.
+      {/* BOTTOM BAR */}
+      <div className="border-t border-gray-800">
+        <div className="container mx-auto px-6 py-5 text-sm text-gray-400 text-center">
+          © 2026 PetConnect. All rights reserved.
+        </div>
       </div>
     </footer>
   );
