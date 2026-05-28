@@ -13,7 +13,7 @@ export default function Navbar({ user }) {
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
   return (
-    <nav className="bg-white shadow-md border-b">
+    <nav className="fixed top-0 left-0 w-full z-50 bg-white shadow-md">
       <div className="container mx-auto px-4">
         <div className="flex justify-between items-center h-16 relative">
 

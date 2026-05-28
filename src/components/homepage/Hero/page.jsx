@@ -9,7 +9,7 @@ export default function Hero() {
 
         <div className="">
         <section className=" bg-gradient-to-r from-[#050816] via-[#35160e] to-[#050816] text-white">
-            <div className="container mx-auto px-20 py-40 flex flex-col-reverse md:flex-row items-center gap-12">
+            <div className="container mx-auto px-20 py-40 sm:pt-56 flex flex-col-reverse md:flex-row items-center gap-12">
 
                 {/* LEFT CONTENT */}
                 <div className="flex-1 text-center md:text-left">
