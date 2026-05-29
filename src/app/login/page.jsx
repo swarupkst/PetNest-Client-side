@@ -2,43 +2,52 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { signIn } from "next-auth/react";
-import { FcGoogle } from "react-icons/fc";
+import { useState } from "react";
 import { toast } from "react-hot-toast";
+import { FcGoogle } from "react-icons/fc";
+import { authClient } from "@/app/lib/auth-client";
 
 export default function LoginPage() {
   const router = useRouter();
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const handleLogin = async (e) => {
     e.preventDefault();
+
+    setError("");
+    setLoading(true);
 
     const form = e.target;
     const email = form.email.value;
     const password = form.password.value;
 
     try {
-      // Example login with NextAuth credentials
-      const res = await signIn("credentials", {
+      const { data, error } = await authClient.signIn.email({
         email,
         password,
-        redirect: false,
       });
 
-      if (res?.ok) {
-        toast.success("Login Successful!");
-        router.push("/");
-      } else {
-        toast.error("Invalid Email or Password");
+      if (error) {
+        setError(error.message || "Invalid credentials");
+        setLoading(false);
+        return;
       }
-    } catch (error) {
-      toast.error("Something went wrong");
+
+      toast.success("Login Successful!");
+      router.push("/");
+    } catch (err) {
+      setError(err.message || "Something went wrong");
+    } finally {
+      setLoading(false);
     }
   };
 
   const handleGoogleLogin = async () => {
     try {
-      await signIn("google", {
-        callbackUrl: "/",
+      await authClient.signIn.social({
+        provider: "google",
+        callbackURL: "/",
       });
     } catch (error) {
       toast.error("Google Login Failed");
@@ -62,7 +71,6 @@ export default function LoginPage() {
             <input
               type="email"
               name="email"
-              placeholder="Enter your email"
               required
               className="w-full border border-gray-300 text-black rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-orange-400"
             />
@@ -77,29 +85,32 @@ export default function LoginPage() {
             <input
               type="password"
               name="password"
-              placeholder="Enter your password"
               required
               className="w-full border border-gray-300 text-black rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-orange-400"
             />
           </div>
 
+          {error && (
+            <p className="text-red-500 text-sm font-medium">{error}</p>
+          )}
 
           <button
             type="submit"
+            disabled={loading}
             className="w-full bg-orange-500 hover:bg-orange-600 text-white py-3 rounded-xl font-semibold transition"
           >
-            Login
+            {loading ? "Logging in..." : "Login"}
           </button>
         </form>
 
-
+        {/* OR */}
         <div className="my-6 flex items-center gap-3">
           <div className="flex-1 h-[1px] bg-gray-300"></div>
           <span className="text-gray-400 text-sm">OR</span>
           <div className="flex-1 h-[1px] bg-gray-300"></div>
         </div>
 
-        {/* Google Login */}
+        {/* Google */}
         <button
           onClick={handleGoogleLogin}
           className="w-full border border-gray-300 hover:bg-gray-100 text-black py-3 rounded-xl flex items-center justify-center gap-3 font-medium transition"
@@ -108,7 +119,7 @@ export default function LoginPage() {
           Continue with Google
         </button>
 
-        {/* Register Link */}
+        {/* Register */}
         <p className="text-center text-gray-600 mt-6">
           Don&apos;t have an account?{" "}
           <Link

@@ -5,16 +5,19 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "react-hot-toast";
 import { FcGoogle } from "react-icons/fc";
+import { authClient } from "@/app/lib/auth-client";
 
 export default function RegisterPage() {
   const router = useRouter();
 
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const handleRegister = (e) => {
+  const handleRegister = async (e) => {
     e.preventDefault();
 
     setError("");
+    setLoading(true);
 
     const form = e.target;
 
@@ -26,33 +29,60 @@ export default function RegisterPage() {
 
     // Password Validation
     if (password.length < 6) {
+      setLoading(false);
       return setError("Password must be at least 6 characters");
     }
 
     if (!/[A-Z]/.test(password)) {
+      setLoading(false);
       return setError("Password must contain one uppercase letter");
     }
 
     if (!/[a-z]/.test(password)) {
+      setLoading(false);
       return setError("Password must contain one lowercase letter");
     }
 
     if (password !== confirmPassword) {
+      setLoading(false);
       return setError("Passwords do not match");
     }
 
-    // Success
-    toast.success("Registration Successful!");
+    try {
+        const { data: res, error } = await authClient.signUp.email({
+        name: name,
+        email: email,
+        password: password,
+        image: photo,
+      });
 
-    console.log({
-      name,
-      email,
-      photo,
-      password,
-    });
+      if (error) {
+        setError(error.message || "Registration failed");
+        setLoading(false);
+        return;
+      }
 
-    // Redirect
-    router.push("/login");
+      toast.success("Registration Successful!");
+
+      form.reset();
+
+      router.push("/login");
+    } catch (err) {
+      setError(err.message || "Something went wrong");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleGoogleLogin = async () => {
+    try {
+      await authClient.signIn.social({
+        provider: "google",
+        callbackURL: "/",
+      });
+    } catch (error) {
+      toast.error("Google Login Failed");
+    }
   };
 
   return (
@@ -104,7 +134,7 @@ export default function RegisterPage() {
               name="photo"
               placeholder="Enter photo URL"
               required
-              className="w-full border border-gray-300 text-black rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-orange-400"
+              className="w-full border border-gray-300 rounded-xl text-black px-4 py-3 focus:outline-none focus:ring-2 focus:ring-orange-400"
             />
           </div>
 
@@ -134,7 +164,7 @@ export default function RegisterPage() {
               name="confirmPassword"
               placeholder="Confirm password"
               required
-              className="w-full border border-gray-300 text-black rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-orange-400"
+              className="w-full border border-gray-300 rounded-xl text-black px-4 py-3 focus:outline-none focus:ring-2 focus:ring-orange-400"
             />
           </div>
 
@@ -146,9 +176,10 @@ export default function RegisterPage() {
           {/* Register Button */}
           <button
             type="submit"
-            className="w-full bg-orange-500 hover:bg-orange-600 text-white py-3 rounded-xl font-semibold transition"
+            disabled={loading}
+            className="w-full bg-orange-500 hover:bg-orange-600 disabled:bg-orange-300 text-white py-3 rounded-xl font-semibold transition"
           >
-            Register
+            {loading ? "Registering..." : "Register"}
           </button>
         </form>
 
@@ -170,8 +201,9 @@ export default function RegisterPage() {
           <div className="flex-1 h-[1px] bg-gray-300"></div>
         </div>
 
-        {/* Google Button */}
+        {/* Google Login */}
         <button
+          onClick={handleGoogleLogin}
           type="button"
           className="w-full border border-gray-300 hover:bg-gray-100 text-black py-3 rounded-xl flex items-center justify-center gap-3 font-medium transition"
         >
