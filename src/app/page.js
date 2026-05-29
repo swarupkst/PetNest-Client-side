@@ -1,6 +1,7 @@
 
 import Hero from "@/components/homepage/Hero/page";
 import FeaturedPet from "@/components/homepage/FeaturedPet/page";
+import WhyAdoptPet from "@/components/homepage/WhyAdoptPet/page";
 
 const MainLayout = () => {
     return (
@@ -8,6 +9,7 @@ const MainLayout = () => {
             
         <Hero />
         <FeaturedPet />
+        <WhyAdoptPet />
         </div>
     );
 };
