@@ -27,7 +27,7 @@ export default function WhyAdoptPet() {
                 <HeartHandshake size={32} />
               </div>
 
-              <h3 className="text-xl font-semibold mb-3">
+              <h3 className="text-xl font-semibold mb-3 text-black">
                 Save Lives
               </h3>
 
@@ -41,7 +41,7 @@ export default function WhyAdoptPet() {
                 <Home size={32} />
               </div>
 
-              <h3 className="text-xl font-semibold mb-3">
+              <h3 className="text-xl font-semibold mb-3 text-black">
                 Find Companionship
               </h3>
 
@@ -55,7 +55,7 @@ export default function WhyAdoptPet() {
                 <ShieldCheck size={32} />
               </div>
 
-              <h3 className="text-xl font-semibold mb-3">
+              <h3 className="text-xl font-semibold mb-3 text-black">
                 Reduce Homelessness
               </h3>
 
@@ -69,7 +69,7 @@ export default function WhyAdoptPet() {
                 <Stethoscope size={32} />
               </div>
 
-              <h3 className="text-xl font-semibold mb-3">
+              <h3 className="text-xl font-semibold mb-3 text-black">
                 Better Mental Health
               </h3>
 
