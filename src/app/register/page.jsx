@@ -49,11 +49,11 @@ export default function RegisterPage() {
     }
 
     try {
-        const { data: res, error } = await authClient.signUp.email({
-        name: name,
-        email: email,
-        password: password,
-        image: photo,
+      const result = await authClient.signUp.email({
+        name,
+        email,
+        password,
+        image: photo || "",
       });
 
       if (error) {

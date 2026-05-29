@@ -29,7 +29,9 @@ export default function LoginPage() {
       });
 
       if (error) {
-        setError(error.message || "Invalid credentials");
+        const errorMessage = error.message || "Invalid credentials";
+        setError(errorMessage);
+        toast.error(errorMessage);
         setLoading(false);
         return;
       }
@@ -37,7 +39,9 @@ export default function LoginPage() {
       toast.success("Login Successful!");
       router.push("/");
     } catch (err) {
-      setError(err.message || "Something went wrong");
+      const errorMessage = err.message || "Something went wrong";
+      setError(errorMessage);
+      toast.error(errorMessage);
     } finally {
       setLoading(false);
     }
@@ -50,7 +54,7 @@ export default function LoginPage() {
         callbackURL: "/",
       });
     } catch (error) {
-      toast.error("Google Login Failed");
+      toast.error(error.message || "Google Login Failed");
     }
   };
 
@@ -91,13 +95,15 @@ export default function LoginPage() {
           </div>
 
           {error && (
-            <p className="text-red-500 text-sm font-medium">{error}</p>
+            <p className="text-red-500 text-sm font-medium">
+              {error}
+            </p>
           )}
 
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-orange-500 hover:bg-orange-600 text-white py-3 rounded-xl font-semibold transition"
+            className="w-full bg-orange-500 hover:bg-orange-600 disabled:bg-orange-300 text-white py-3 rounded-xl font-semibold transition"
           >
             {loading ? "Logging in..." : "Login"}
           </button>
