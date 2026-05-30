@@ -50,7 +50,7 @@ export default function Navbar() {
           {/* MENU */}
           <div className="text-black hidden md:flex absolute left-1/2 -translate-x-1/2 items-center gap-6">
             <Link href="/">Home</Link>
-            <Link href="/pets">All Pets</Link>
+            <Link href="/all-pets">All Pets</Link>
 
             {user && (
               <>
@@ -126,7 +126,7 @@ export default function Navbar() {
         {isOpen && (
           <div className="md:hidden flex flex-col gap-3 pb-4 text-black">
             <Link href="/">Home</Link>
-            <Link href="/pets">All Pets</Link>
+            <Link href="/all-pets">All Pets</Link>
 
             {user && (
               <>
