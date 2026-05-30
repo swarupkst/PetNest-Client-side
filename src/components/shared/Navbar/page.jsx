@@ -54,8 +54,8 @@ export default function Navbar() {
 
             {user && (
               <>
-                <Link href="/my-requests">My Requests</Link>
-                <Link href="/add-pet">Add Pet</Link>
+                <Link href="/dashboard/requests">My Requests</Link>
+                <Link href="/dashboard/add-pet">Add Pet</Link>
               </>
             )}
           </div>
@@ -131,7 +131,7 @@ export default function Navbar() {
             {user && (
               <>
                 <Link href="/my-requests">My Requests</Link>
-                <Link href="/add-pet">Add Pet</Link>
+                <Link href="/dashboard/add-pet">Add Pet</Link>
                 <Link href="/dashboard">Dashboard</Link>
 
                 <button

@@ -43,16 +43,16 @@ export default function PetsPage() {
   const speciesList = ["All", ...new Set(pets.map((pet) => pet.species))];
 
   // Spinner (ONLY data fetch)
-  if (loading) {
-    return (
-      <div className="min-h-screen flex justify-center items-center">
-        <span className="loading loading-spinner loading-lg"></span>
-      </div>
-    );
-  }
+  // if (loading) {
+  //   return (
+  //     <div className="min-h-screen flex justify-center items-center">
+  //       <span className="loading loading-spinner loading-lg"></span>
+  //     </div>
+  //   );
+  // }
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-10">
+    <div className="max-w-7xl mx-auto px-4 py-10 pt-16">
 
       <PetsHeader />
 
