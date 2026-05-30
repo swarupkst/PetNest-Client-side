@@ -20,18 +20,20 @@ export default function Navbar() {
   const handleLogout = async () => {
     try {
       await authClient.signOut();
-
-      // 🔥 IMPORTANT: clear cached session instantly
       await refetch();
 
       setDropdownOpen(false);
       setIsOpen(false);
 
-      // redirect after logout
       router.push("/login");
     } catch (err) {
       console.log(err);
     }
+  };
+
+  const closeMenus = () => {
+    setDropdownOpen(false);
+    setIsOpen(false);
   };
 
   return (
@@ -40,7 +42,11 @@ export default function Navbar() {
         <div className="flex justify-between items-center h-16 relative">
 
           {/* LOGO */}
-          <Link href="/" className="flex items-center gap-2 z-10">
+          <Link
+            href="/"
+            className="flex items-center gap-2 z-10"
+            onClick={closeMenus}
+          >
             <Image src={Logo} alt="Logo" width={55} height={55} />
             <span className="text-2xl font-bold text-orange-500">
               PetConnect
@@ -49,13 +55,17 @@ export default function Navbar() {
 
           {/* MENU */}
           <div className="text-black hidden md:flex absolute left-1/2 -translate-x-1/2 items-center gap-6">
-            <Link href="/">Home</Link>
-            <Link href="/all-pets">All Pets</Link>
+            <Link href="/" onClick={closeMenus}>Home</Link>
+            <Link href="/all-pets" onClick={closeMenus}>All Pets</Link>
 
             {user && (
               <>
-                <Link href="/dashboard/requests">My Requests</Link>
-                <Link href="/dashboard/add-pet">Add Pet</Link>
+                <Link href="/dashboard/requests" onClick={closeMenus}>
+                  My Requests
+                </Link>
+                <Link href="/dashboard/add-pet" onClick={closeMenus}>
+                  Add Pet
+                </Link>
               </>
             )}
           </div>
@@ -68,19 +78,16 @@ export default function Navbar() {
                   onClick={() => setDropdownOpen(!dropdownOpen)}
                   className="flex items-center gap-2"
                 >
-                  {/* PROFILE IMAGE */}
-                  {user.image ? (
-                    <Image
+
+                  {/* 🔥 FIXED IMAGE PART */}
+                  {user ? (
+                    <img
                       src={user.image}
                       alt="profile"
-                      width={65}
-                      height={65}
-                      className="rounded-full border"
+                      className="w-10 h-10 rounded-full object-cover"
                     />
                   ) : (
-                    <div className="w-9 h-9 flex items-center justify-center rounded-full bg-gray-200">
-                      {user.name?.charAt(0)}
-                    </div>
+                    ""
                   )}
                 </button>
 
@@ -90,6 +97,7 @@ export default function Navbar() {
                     <Link
                       href="/dashboard"
                       className="block px-4 py-2 hover:bg-gray-100"
+                      onClick={closeMenus}
                     >
                       Dashboard
                     </Link>
@@ -107,13 +115,14 @@ export default function Navbar() {
               <Link
                 href="/login"
                 className="bg-orange-500 text-white px-5 py-2 rounded-lg"
+                onClick={closeMenus}
               >
                 Login
               </Link>
             )}
           </div>
 
-          {/* MOBILE */}
+          {/* MOBILE BUTTON */}
           <button
             className="md:hidden text-orange-500"
             onClick={() => setIsOpen(!isOpen)}
@@ -125,18 +134,24 @@ export default function Navbar() {
         {/* MOBILE MENU */}
         {isOpen && (
           <div className="md:hidden flex flex-col gap-3 pb-4 text-black">
-            <Link href="/">Home</Link>
-            <Link href="/all-pets">All Pets</Link>
+            <Link href="/" onClick={closeMenus}>Home</Link>
+            <Link href="/all-pets" onClick={closeMenus}>All Pets</Link>
 
             {user && (
               <>
-                <Link href="/my-requests">My Requests</Link>
-                <Link href="/dashboard/add-pet">Add Pet</Link>
-                <Link href="/dashboard">Dashboard</Link>
+                <Link href="/dashboard/requests" onClick={closeMenus}>
+                  My Requests
+                </Link>
+                <Link href="/dashboard/add-pet" onClick={closeMenus}>
+                  Add Pet
+                </Link>
+                <Link href="/dashboard" onClick={closeMenus}>
+                  Dashboard
+                </Link>
 
                 <button
                   onClick={handleLogout}
-                  className="text-left text-red-500 text-black"
+                  className="text-left text-red-500"
                 >
                   Logout
                 </button>
@@ -147,6 +162,7 @@ export default function Navbar() {
               <Link
                 href="/login"
                 className="bg-orange-500 text-white px-4 py-2 rounded"
+                onClick={closeMenus}
               >
                 Login
               </Link>

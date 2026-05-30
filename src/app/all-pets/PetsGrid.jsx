@@ -1,8 +1,14 @@
 import Link from "next/link";
 
-export default function PetsGrid({ pets, loading  }) {
-
-   if (loading) {
+export default function PetsGrid({ pets = [], loading }) {
+  if (loading) {
+    return (
+      <div className="min-h-screen flex justify-center items-center">
+        <span className="loading loading-spinner loading-lg"></span>
+      </div>
+    );
+  }
+ if (loading) {
     return (
       <div className="min-h-screen flex justify-center items-center">
         <span className="loading loading-spinner loading-lg"></span>
@@ -12,7 +18,7 @@ export default function PetsGrid({ pets, loading  }) {
   return (
     <>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {pets.map((pet) => (
+        {pets?.map((pet) => (
           <div
             key={pet._id}
             className="bg-white rounded-2xl shadow-md overflow-hidden hover:shadow-xl transition"
@@ -24,7 +30,7 @@ export default function PetsGrid({ pets, loading  }) {
             />
 
             <div className="p-5">
-              <h2 className="text-2xl font-bold">{pet.petName}</h2>
+              <h2 className="text-2xl font-bold text-black">{pet.petName}</h2>
 
               <p className="text-gray-500 mt-1">{pet.species}</p>
               <p className="text-gray-500">Breed: {pet.breed}</p>
@@ -36,7 +42,7 @@ export default function PetsGrid({ pets, loading  }) {
               </p>
 
               <Link
-                href={`/pets/${pet._id}`}
+                href={`/pet/${pet._id}`}
                 className="mt-4 block text-center bg-orange-500 hover:bg-orange-600 text-white py-3 rounded-xl font-semibold transition"
               >
                 View Details
@@ -46,11 +52,9 @@ export default function PetsGrid({ pets, loading  }) {
         ))}
       </div>
 
-      {pets.length === 0 && (
+      {pets.length === 0 && !loading && (
         <div className="text-center py-20">
-          <h2 className="text-2xl font-semibold">
-            No pets found 🐾
-          </h2>
+          <h2 className="text-2xl font-semibold">No pets found 🐾</h2>
         </div>
       )}
     </>

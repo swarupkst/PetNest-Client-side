@@ -14,46 +14,56 @@ export default function PetsPage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch(`${process.env.NEXT_PUBLIC_API_URL}/pets`)
-      .then((res) => res.json())
-      .then((data) => {
+    const fetchPets = async () => {
+      try {
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL}/destination`
+        );
+
+        const data = await res.json();
+
         setPets(data);
         setFilteredPets(data);
+      } catch (error) {
+        console.error("Failed to fetch pets:", error);
+        setPets([]);
+        setFilteredPets([]);
+      } finally {
         setLoading(false);
-      })
-      .catch(() => setLoading(false));
+      }
+    };
+
+    fetchPets();
   }, []);
 
   useEffect(() => {
-    let filtered = pets;
+    let filtered = [...pets];
 
     if (searchTerm) {
       filtered = filtered.filter((pet) =>
-        pet.petName.toLowerCase().includes(searchTerm.toLowerCase())
+        pet.petName?.toLowerCase().includes(searchTerm.toLowerCase())
       );
     }
 
     if (speciesFilter !== "All") {
-      filtered = filtered.filter((pet) => pet.species === speciesFilter);
+      filtered = filtered.filter(
+        (pet) => pet.species === speciesFilter
+      );
     }
 
     setFilteredPets(filtered);
   }, [searchTerm, speciesFilter, pets]);
 
-  const speciesList = ["All", ...new Set(pets.map((pet) => pet.species))];
+  const speciesList = [
+    "All",
+    ...new Set(pets.map((pet) => pet.species)),
+  ];
 
-  // Spinner (ONLY data fetch)
-  // if (loading) {
-  //   return (
-  //     <div className="min-h-screen flex justify-center items-center">
-  //       <span className="loading loading-spinner loading-lg"></span>
-  //     </div>
-  //   );
-  // }
+  // ✅ IMPORTANT: loading UI here (best place)
+ 
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-10 pt-16">
-
+    <div className="container mx-auto px-4 py-10 pt-16 ">
       <PetsHeader />
 
       <PetsSearchFilter
@@ -67,7 +77,6 @@ export default function PetsPage() {
       <PetsResultsCount count={filteredPets.length} />
 
       <PetsGrid pets={filteredPets} />
-
     </div>
   );
 }

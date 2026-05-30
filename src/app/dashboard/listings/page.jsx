@@ -24,11 +24,17 @@ export default function MyListings() {
         setLoading(true);
 
         const res = await fetch(
-          `http://localhost:5000/my-listings/${session.user.email}`
+          `http://localhost:5000/destination`
         );
 
         const data = await res.json();
-        setPets(data);
+
+        // filter by owner email (since API doesn’t filter)
+        const myPets = data.filter(
+          (pet) => pet.ownerEmail === session.user.email
+        );
+
+        setPets(myPets);
       } catch (error) {
         toast.error("Failed to load pets");
       } finally {
@@ -42,12 +48,11 @@ export default function MyListings() {
   // DELETE PET
   const handleDelete = async (id) => {
     const confirmDelete = confirm("Are you sure?");
-
     if (!confirmDelete) return;
 
     try {
       const res = await fetch(
-        `http://localhost:5000/pets/${id}`,
+        `http://localhost:5000/destination/${id}`,
         {
           method: "DELETE",
         }
@@ -58,52 +63,30 @@ export default function MyListings() {
       if (data.deletedCount > 0) {
         toast.success("Pet deleted");
 
-        setPets((prev) =>
-          prev.filter((pet) => pet._id !== id)
-        );
+        setPets((prev) => prev.filter((pet) => pet._id !== id));
+      } else {
+        toast.error("Delete failed");
       }
     } catch (error) {
       toast.error("Delete failed");
     }
   };
 
-  // STATS
   const total = pets.length;
-  const available = pets.filter(
-    (p) => p.status === "Available"
-  ).length;
-  const adopted = pets.filter(
-    (p) => p.status === "Adopted"
-  ).length;
 
   if (loading) return <LoadingSpinner />;
 
   return (
     <div className="space-y-8">
-      {/* TITLE */}
       <h1 className="text-3xl font-bold text-gray-800">
         My Listings
       </h1>
 
       {/* STATS */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+      <div className="grid grid-cols-1 md:grid-cols-1 gap-5">
         <div className="bg-white p-6 rounded-2xl shadow">
           <h3 className="text-gray-500">Total Listings</h3>
           <p className="text-3xl font-bold">{total}</p>
-        </div>
-
-        <div className="bg-white p-6 rounded-2xl shadow">
-          <h3 className="text-gray-500">Available</h3>
-          <p className="text-3xl font-bold text-green-500">
-            {available}
-          </p>
-        </div>
-
-        <div className="bg-white p-6 rounded-2xl shadow">
-          <h3 className="text-gray-500">Adopted</h3>
-          <p className="text-3xl font-bold text-blue-500">
-            {adopted}
-          </p>
         </div>
       </div>
 
@@ -114,14 +97,12 @@ export default function MyListings() {
             key={pet._id}
             className="bg-white rounded-2xl shadow overflow-hidden"
           >
-            {/* IMAGE */}
             <img
               src={pet.image}
               alt={pet.petName}
               className="h-52 w-full object-cover"
             />
 
-            {/* INFO */}
             <div className="p-5 space-y-2">
               <h2 className="text-xl font-bold">
                 {pet.petName}
@@ -132,21 +113,11 @@ export default function MyListings() {
               </p>
 
               <p className="text-sm text-gray-500">
-                Status:{" "}
-                <span
-                  className={`font-semibold ${
-                    pet.status === "Available"
-                      ? "text-green-500"
-                      : "text-blue-500"
-                  }`}
-                >
-                  {pet.status}
-                </span>
+                {pet.location}
               </p>
 
               {/* BUTTONS */}
               <div className="grid grid-cols-2 gap-2 pt-3">
-                {/* REQUESTS MODAL */}
                 <button
                   onClick={() => {
                     setSelectedPet(pet);
@@ -157,7 +128,6 @@ export default function MyListings() {
                   Requests
                 </button>
 
-                {/* EDIT */}
                 <Link
                   href={`/dashboard/edit/${pet._id}`}
                   className="bg-yellow-500 text-white py-2 rounded-lg text-center"
@@ -165,7 +135,6 @@ export default function MyListings() {
                   Edit
                 </Link>
 
-                {/* VIEW */}
                 <Link
                   href={`/pets/${pet._id}`}
                   className="bg-green-500 text-white py-2 rounded-lg text-center"
@@ -173,7 +142,6 @@ export default function MyListings() {
                   View
                 </Link>
 
-                {/* DELETE */}
                 <button
                   onClick={() => handleDelete(pet._id)}
                   className="bg-red-500 text-white py-2 rounded-lg"

@@ -31,7 +31,7 @@ export default function RootLayout({ children }) {
                 <Toaster position="top-right" />
 
         
-        <main className="grow">
+        <main className="grow bg-gray-50">
           {children}
         </main>
 

@@ -1,30 +1,37 @@
 export default function PetsSearchFilter({
-  searchTerm,
+  searchTerm = "",
   setSearchTerm,
-  speciesFilter,
+  speciesFilter = "All",
   setSpeciesFilter,
-  speciesList,
+  speciesList = [],
 }) {
   return (
     <div className="flex flex-col md:flex-row gap-4 mb-10">
+      
+      {/* Search Input */}
       <input
         type="text"
         placeholder="Search by pet name..."
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
-        className="input input-bordered w-full"
+        className="input input-bordered w-full bg-gray-600"
       />
 
+      {/* Species Filter */}
       <select
         value={speciesFilter}
         onChange={(e) => setSpeciesFilter(e.target.value)}
-        className="select select-bordered w-full md:w-60"
+        className="select select-bordered w-full md:w-60 bg-gray-600"
       >
-        {speciesList.map((species) => (
-          <option key={species} value={species}>
-            {species}
-          </option>
-        ))}
+        {speciesList?.length > 0 ? (
+          speciesList.map((species, index) => (
+            <option key={index} value={species}>
+              {species}
+            </option>
+          ))
+        ) : (
+          <option value="All">All</option>
+        )}
       </select>
     </div>
   );
